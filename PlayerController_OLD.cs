@@ -1,10 +1,8 @@
-
-using static Models;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(Animator))]
-public class PlayerController : MonoBehaviour
+public class PlayerController_OLD : MonoBehaviour
 {
     [Header("Camera")]
     [SerializeField] private CameraController _cameraController;
@@ -123,7 +121,7 @@ public class PlayerController : MonoBehaviour
     private void CalculateMove()
     {
         _animator.SetBool(_targetModeParameter, _isTargetMode);
-        Debug.Log(ViewInput);
+
         float currentSpeed;
 
         if (_isTargetMode)
@@ -161,11 +159,10 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            Quaternion originalRotation = transform.rotation;
-            transform.LookAt(_moveVelocity + transform.position, Vector3.up);
-            Quaternion newRotation = transform.rotation;
-
-            transform.rotation = Quaternion.Lerp(originalRotation, newRotation, _settings.CharacterRotationSmoothdamp);
+            Vector3 targetDirection = _moveVelocity.normalized;
+            targetDirection.y = 0;
+            Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, _settings.CharacterRotationSmoothdamp);
 
             if (_isSprinting)
                 currentSpeed = _settings.SprintingSpeed;
