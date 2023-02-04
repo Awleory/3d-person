@@ -93,7 +93,7 @@ public class Movement : MonoBehaviour
 
         _moveVelocity.x = SmoothDamp(_moveVelocity.x, _moveInput.x * targetSpeed, ref _xVelocity, _movementSmoothdamp);
         _moveVelocity.z = SmoothDamp(_moveVelocity.z, _moveInput.z * targetSpeed, ref _zVelocity, _movementSmoothdamp);
-        Debugger.Log("_moveVelocity magnitude", _moveVelocity.magnitude);
+
         _localMoveVelocity = Vector3.zero;
         if (_character.IsTargetMode)
             _localMoveVelocity = transform.InverseTransformDirection(_moveVelocity);

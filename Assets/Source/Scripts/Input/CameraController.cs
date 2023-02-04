@@ -36,6 +36,7 @@ public class CameraController : MonoBehaviour
         {
             _yGimbalRotation.x = 0;
             Rotate(_character.transform.rotation, Quaternion.Euler(_yGimbalRotation));
+            _targetRotation.y = _character.transform.rotation.eulerAngles.y;
         }
         else
         {
