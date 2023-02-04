@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Player))]
+[RequireComponent(typeof(Character))]
 public class PlayerController : MonoBehaviour
 {
     [Header("Camera")]
@@ -11,19 +11,19 @@ public class PlayerController : MonoBehaviour
     public Vector3 CameraTargetPosition => _cameraTarget.position;
 
     private PlayerInputActions _inputActions;
-    private Player _player;
+    private Character _character;
     private Vector3 _moveInput;
     private Vector3 _moveInputCameraRelative;
 
     private void Awake()
     {
         _inputActions = new PlayerInputActions();
-        _player = GetComponent<Player>();
+        _character = GetComponent<Character>();
 
         _inputActions.Movement.Movement.performed += context => _moveInput = context.ReadValue<Vector3>();
-        _inputActions.Actions.WalkingToggle.performed += context => _player.ToggleWalking();
-        _inputActions.Actions.Sprint.performed += context => _player.ToggleSprint();
-        _inputActions.Actions.TargetMode.performed += context => _player.ToggleTargetMode();
+        _inputActions.Actions.WalkingToggle.performed += context => _character.ToggleWalking();
+        _inputActions.Actions.Sprint.performed += context => _character.ToggleSprint();
+        _inputActions.Actions.TargetMode.performed += context => _character.ToggleTargetMode();
     }
 
     private void OnEnable()
@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
         _moveInputCameraRelative = _cameraController.transform.forward * _moveInput.z;
         _moveInputCameraRelative += _cameraController.transform.right * _moveInput.x;
 
-        _player.ApplyMove(_moveInputCameraRelative); 
-        _player.ApplyView(_cameraController.TargetRotation);
+        _character.ApplyMove(_moveInputCameraRelative); 
+        _character.ApplyView(_cameraController.TargetRotation);
     }
 }

@@ -1,3 +1,4 @@
+
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
@@ -15,10 +16,6 @@ public class Movement : MonoBehaviour
     [SerializeField] private float _movementSmoothdamp = 0.2f;
     [SerializeField] private float _rotationSmoothdamp = 0.6f;
 
-    [Header("Mode")]
-    [SerializeField] private bool _isFaceTarget;
-    [SerializeField] private Transform _target;
-
     [Header("Stamina")]
     [SerializeField] private float _sprintStaminaDrain;
     [SerializeField] private float _minStaminaForSprint;
@@ -28,10 +25,8 @@ public class Movement : MonoBehaviour
     private float _staminaRestoreDelay = 1f;
     private float _staminaRestoreCurrentDelay;
 
-    public bool IsTargetMode => _isTargetMode;
     public Vector3 RelativeMoveVelocity => _localMoveVelocity;
 
-    private bool _isTargetMode;
     private bool _isWalking;
     private bool _isSprinting;
 
@@ -44,12 +39,14 @@ public class Movement : MonoBehaviour
     private float _zVelocity;
 
     private CharacterController _characterController;
+    private Character _character;
 
     private const float _sprintFalloff = 0.2f;
 
     private void Awake()
     {
         _characterController = GetComponent<CharacterController>();
+        _character = GetComponent<Character>();
         _stamina = _maxStamina;
     }
 
@@ -70,11 +67,6 @@ public class Movement : MonoBehaviour
     public void ApplyView(Vector3 view)
     {
         _viewTargetRotation = view;
-    }
-
-    public void ToggleTargetMode()
-    {
-        _isTargetMode = !_isTargetMode;
     }
 
     public void ToggleWalking()
@@ -101,9 +93,9 @@ public class Movement : MonoBehaviour
 
         _moveVelocity.x = SmoothDamp(_moveVelocity.x, _moveInput.x * targetSpeed, ref _xVelocity, _movementSmoothdamp);
         _moveVelocity.z = SmoothDamp(_moveVelocity.z, _moveInput.z * targetSpeed, ref _zVelocity, _movementSmoothdamp);
-
+        Debugger.Log("_moveVelocity magnitude", _moveVelocity.magnitude);
         _localMoveVelocity = Vector3.zero;
-        if (_isTargetMode)
+        if (_character.IsTargetMode)
             _localMoveVelocity = transform.InverseTransformDirection(_moveVelocity);
         else
             _localMoveVelocity.z = _moveVelocity.magnitude;
@@ -140,7 +132,7 @@ public class Movement : MonoBehaviour
             return 0;
 
         float speed;
-        if (_isTargetMode)
+        if (_character.IsTargetMode)
         {
             if (_moveInput.z > 0)
                 speed = _isWalking ? _walkingStrafeSpeed : _runningStrafeSpeed;
@@ -160,13 +152,13 @@ public class Movement : MonoBehaviour
 
     private void CalculateRotation()
     {
-        if (_isTargetMode)
+        if (_character.IsTargetMode)
         {
             Quaternion currentRotation = transform.rotation;
 
-            if (_isFaceTarget && _target)
+            if (_character.Target)
             {
-                RotateToTarget(_target.position - transform.position, _rotationSmoothdamp);
+                RotateToTarget(_character.Target.position - transform.position, _rotationSmoothdamp);
             }
             else
             {
@@ -199,7 +191,7 @@ public class Movement : MonoBehaviour
 
     private bool CanSprint()
     {
-        if (_isTargetMode)
+        if (_character.IsTargetMode)
             return false;
 
         if (Mathf.Abs(_moveInput.z) < _sprintFalloff && Mathf.Abs(_moveInput.x) < _sprintFalloff)

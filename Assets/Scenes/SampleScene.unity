@@ -197,18 +197,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cameraController: {fileID: 1928652843}
   _cameraTarget: {fileID: 1250816537}
---- !u!114 &204039345
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 204039339}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09afc50d30807314ea42f414ed649194, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &204039346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,8 +219,6 @@ MonoBehaviour:
   _movementSpeedRate: 1
   _movementSmoothdamp: 0.2
   _rotationSmoothdamp: 0.2
-  _isFaceTarget: 0
-  _target: {fileID: 585883260}
   _sprintStaminaDrain: 5
   _minStaminaForSprint: 14
 --- !u!114 &204039348
@@ -247,6 +233,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 938360789c57dcf41b4b51815bd3ffc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &204039350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 204039339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79cefb32e8a54554283dd8c45561a3d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _target: {fileID: 585883260}
 --- !u!1 &301471198
 GameObject:
   m_ObjectHideFlags: 0
@@ -952,6 +951,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerController: {fileID: 204039344}
+  _character: {fileID: 204039350}
   _yGimbal: {fileID: 53179053}
   _sensitivityX: 9
   _sensitivityY: 7
@@ -960,6 +960,8 @@ MonoBehaviour:
   _yClampMin: -60
   _yClampMax: 60
   _movementSmoothTime: 0.1
+  _rotateSmoothTime: 0.1
+  _isTargetMode: 1
 --- !u!1 &2015016858
 GameObject:
   m_ObjectHideFlags: 0

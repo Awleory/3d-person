@@ -5,13 +5,20 @@ using UnityEngine;
 [RequireComponent (typeof(CharacterAnimations))]
 public class Character : MonoBehaviour
 {
+    [SerializeField] private Transform _target;
+
     private Movement _movement;
-    private CharacterAnimations _characterAnimations;
+
+    public bool IsTargetMode => _isTargetMode;
+    public bool IsFocusMode => _isFocusMode;
+    public Transform Target => _target;
+
+    private bool _isTargetMode;
+    private bool _isFocusMode;
 
     private void Awake()
     {
         _movement = GetComponent<Movement>();
-        _characterAnimations = GetComponent<CharacterAnimations>();
     }
 
     public void ToggleSprint()
@@ -31,7 +38,12 @@ public class Character : MonoBehaviour
 
     public void ToggleTargetMode()
     {
-        _movement.ToggleTargetMode();
+        _isTargetMode = !_isTargetMode;
+    }
+
+    public void ToggleFocusMode()
+    {
+        _isFocusMode = !_isFocusMode;
     }
 
     public void ToggleWalking()

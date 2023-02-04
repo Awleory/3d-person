@@ -1,4 +1,4 @@
 
-public class Player : Character
+public class Player
 {
 }
